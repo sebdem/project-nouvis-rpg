@@ -1,0 +1,12 @@
+{
+	"id": 1,
+	"walkable": true,
+	"baseTexture": "water_base",
+	
+	"connectsTo": [ 
+		{ "id": 3, "texture": "water_grass" },
+		{ "id": 2, "texture": "water_dirt" }
+	]
+	
+
+}
