@@ -1,1 +1,2 @@
-# project-nouvis-rpg
+# Project Nouvis
+t.b.a.
