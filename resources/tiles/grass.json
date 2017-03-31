@@ -4,7 +4,8 @@
 	"baseTexture": "grass_base",
 	
 	"connectsTo": [ 
-		{ "id": 4, "texture": "grass_rock" }
+		{ "id": 4, "texture": "grass_rock" },
+		{ "id": 6, "texture": "grass_sand" }
 	]
 	
 }

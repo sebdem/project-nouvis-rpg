@@ -83,7 +83,7 @@ public class MetaSprite implements ISprite {
 
 	public Vec2 getDim() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.corners[0].getDim().multiplyNew(2);
 	}
 
 	public Vec2 getEffDim() {

@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.utils.ArrayUtils;
 import sebdem.nouvis.utils.ColorUtils;
-import sebdem.nouvis.utils.RandomUtil;
+import sebdem.nouvis.utils.RandomUtils;
 import sebdem.nouvis.world.TileTerrainData;
 import sebdem.nouvis.world.WorldSpace;
 
@@ -28,7 +28,7 @@ public class WorldGenerator {
 		height = 480;
 		this.seed = seed;
 
-		landmasses = RandomUtil.randomIntAround(15, (int) (Math.random() * 6), (int) (Math.random() * 3));
+		landmasses = RandomUtils.randomIntAround(15, (int) (Math.random() * 6), (int) (Math.random() * 3));
 
 	}
 
@@ -53,7 +53,7 @@ public class WorldGenerator {
 		
 		//float[][] values = generateOctavedSimplexNoise(width, height, r.nextInt(8) + 3, 0.25f, 0.00928125f); 
 		//float[][] values = generateOctavedSimplexNoise(width, height, r.nextInt(8) + 3, 0.55f, 0.003140625f); 
-		float[][] values = generateOctavedSimplexNoise(width, height, 8, 0.45f, 0.005f); //r.nextInt(8) + 1
+		float[][] values = generateOctavedSimplexNoise(width, height, 8, 0.40f, 0.005f); //r.nextInt(8) + 1
 		
 		BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		
@@ -66,12 +66,12 @@ public class WorldGenerator {
 			{
 				value = Math.abs(values[x][y]);
 
-				if (value > 0.2f)
+				if (value > 0.3f)
 				{
-					if (value > 0.275f){
-						if (value > 0.35f)
+					if (value > 0.525f){
+						if (value > 0.575f)
 						{
-							if (value > 0.75f)
+							if (value > 0.85f)
 							{
 								terrain.setTile(x, y, 4);
 							} 
@@ -94,29 +94,7 @@ public class WorldGenerator {
 				{
 					terrain.setTile(x, y, 5);
 				}
-//				
-//				if (value > 0.25f)
-//				{
-//					if (value > 0.32f)
-//					{
-//						if (value > 0.7f)
-//						{
-//							terrain.setTile(x, y, 4);
-//						} 
-//						else 
-//						{
-//							terrain.setTile(x, y, 3);
-//						}
-//					}
-//					else
-//					{
-//						terrain.setTile(x, y, 2);
-//					}
-//				}
-//				else if( value < 0.1f)
-//				{
-//					terrain.setTile(x, y, 5);
-//				}
+
 				output.setRGB(x, y, ColorUtils.shade(Color.white, value).getRGB());
 			}
 		}
@@ -204,8 +182,8 @@ public class WorldGenerator {
 	private void generateLandmassCircle(WorldSpace world, int genCenterX, int genCenterY)
 	{
 		TileTerrainData terrain = world.terrain;
-		float radx = RandomUtil.randomIntAround(50, 40, 20);
-		float rady = RandomUtil.randomIntAround(50, 40, 20);
+		float radx = RandomUtils.randomIntAround(50, 40, 20);
+		float rady = RandomUtils.randomIntAround(50, 40, 20);
 
 		for (float y = -rady; y < rady; y++)
 		{
@@ -215,8 +193,8 @@ public class WorldGenerator {
 				float xd = (x * x) / (radx * radx);
 				if (yd + xd <= 1)
 				{
-					terrain.setTile((int) (genCenterX + x + RandomUtil.randomIntAround(7, 4, 2)),
-							(int) (genCenterY + y + RandomUtil.randomIntAround(7, 4, 2)), 2);
+					terrain.setTile((int) (genCenterX + x + RandomUtils.randomIntAround(7, 4, 2)),
+							(int) (genCenterY + y + RandomUtils.randomIntAround(7, 4, 2)), 2);
 				}
 			}
 		}
@@ -229,10 +207,10 @@ public class WorldGenerator {
 	private void generateLandmassPolyg(WorldSpace world, int genCenterX, int genCenterY)
 	{
 		TileTerrainData terrain = world.terrain;
-		float radx = RandomUtil.randomIntAround(50, 40, 20);
-		float rady = RandomUtil.randomIntAround(50, 40, 20);
+		float radx = RandomUtils.randomIntAround(50, 40, 20);
+		float rady = RandomUtils.randomIntAround(50, 40, 20);
 
-		Vec2[] coasts = new Vec2[RandomUtil.randomIntAround(8, 10)];
+		Vec2[] coasts = new Vec2[RandomUtils.randomIntAround(8, 10)];
 		for (int i = 0; i < coasts.length; i++)
 		{
 			coasts[i] = new Vec2((int) (Math.random() * (radx * 2) - radx), (int) (Math.random() * (rady * 2) - rady));

@@ -13,6 +13,8 @@ public class NouvGraphics {
 
 	private Graphics2D graph;
 	
+	private Rectangle displaySize;
+	
 	public NouvGraphics(BufferStrategy bs){
 		this(bs.getDrawGraphics());
 	}
@@ -24,9 +26,43 @@ public class NouvGraphics {
 		this.graph.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
 	}
 
+
+	public Vec2 topLeft(){
+		return new Vec2(0, 0);
+	}
+	public Vec2 topRight(){
+		return new Vec2((float)this.getDisplaySize().getMaxX(), 0);
+	}
+	
+	public Vec2 bottomLeft(){
+		return new Vec2(0, (float)this.getDisplaySize().getMaxY());
+	}
+	public Vec2 bottomRight(){
+		return new Vec2(
+				(float)this.getDisplaySize().getMaxX(), 
+				(float)this.getDisplaySize().getMaxY());
+	}
+	
+	public void setDisplaySize(Rectangle rect){
+		this.displaySize = rect;
+	}
+
+	public Rectangle getDisplaySize(){
+		if (this.displaySize != null)
+			return this.displaySize;
+		else
+			return new Rectangle(0,0,1,1);
+	}
 	
 	public void draw(ISprite sprite, Vec2 position) {
 		draw(sprite, position.createRectSize(sprite.getDim()).getBounds());
+	}
+	public void draw(ISprite sprite, Vec2 position, Vec2 size) {
+		graph.drawImage(sprite.get(), 
+				(int)Math.floor(position.x), 
+				(int)Math.floor(position.y), 
+				(int)Math.floor(size.x), 
+				(int)Math.floor(size.y),  null);
 	}
 	public void draw(ISprite sprite, Vec2 position, Color tint) {
 		draw(sprite, position.createRectSize(sprite.getDim()).getBounds(), tint);
@@ -74,6 +110,20 @@ public class NouvGraphics {
 		for(char c : chars){
 			s = font.getFor(c);
 			sdim = s.getDim(); 
+			
+			draw(s, position.createRectSize(sdim).getBounds(), tint);
+
+			position.addTo(sdim.x, 0);
+		}
+	}
+	public void drawString(NouvFont font, String text, Vec2 position, Color tint, float scale){
+		// TODO : Draw String fitting to clip bounds?
+		char[] chars = text.toCharArray();
+		ISprite s = null;
+		Vec2 sdim;
+		for(char c : chars){
+			s = font.getFor(c);
+			sdim = s.getDim().multiplyNew(scale); 
 			
 			draw(s, position.createRectSize(sdim).getBounds(), tint);
 

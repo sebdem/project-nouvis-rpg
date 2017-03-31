@@ -89,12 +89,25 @@ public class Vec2 {
 		return Vec2.substract(this, vec);
 	}
 
+	
+	public Vec2 multiplyNew(float factor){
+		return new Vec2(this.x * factor, this.y * factor);
+	}
+	
 	// ===========================================
 	// ==||== OTHER METHODS ==||==
 	// ===========================================
 
+	public Vec2 copy(){
+		return new Vec2(x, y);
+	}
+	
 	public String toString(){
 		return "Vec2( " + x + " / " + y + " )";
+	}
+	
+	public Vec2 intOffset(){
+		return new Vec2(this.x % 1, this.y % 1);
 	}
 	
 	public Rectangle2D.Float createRectTo(Vec2 to) {

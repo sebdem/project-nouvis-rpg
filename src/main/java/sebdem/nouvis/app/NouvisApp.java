@@ -2,9 +2,13 @@ package sebdem.nouvis.app;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Set;
 
 import javax.swing.JFrame;
@@ -16,8 +20,10 @@ import sebdem.nouvis.graphics.Sprite;
 import sebdem.nouvis.graphics.SpriteSheet;
 import sebdem.nouvis.resource.FontResource;
 import sebdem.nouvis.resource.SpriteResource;
+import sebdem.nouvis.states.EmptyState;
+import sebdem.nouvis.states.GameState;
 import sebdem.nouvis.states.StateStack;
-import sebdem.nouvis.utils.RandomUtil;
+import sebdem.nouvis.utils.RandomUtils;
 import sebdem.nouvis.world.TileRegistry;
 
 public class NouvisApp extends JFrame implements Runnable{
@@ -33,15 +39,14 @@ public class NouvisApp extends JFrame implements Runnable{
 	
 	public Dimension screenResolution;
 	
-	public TileRegistry tiles;
+	public static TileRegistry tiles;
 
-	NouvFont crafted;
-//	SpriteSheet grassDirt;
-//	SpriteSheet grassWater;
-	Sprite logo;
+	public static NouvFont crafted;
+
+	public static Sprite logo;
 	
 
-	public StateStack gameStates = new StateStack();
+	public StateStack gameStates;
 	
 	public static void main(String[] args){
 		NouvisApp nouv = new NouvisApp();
@@ -59,12 +64,26 @@ public class NouvisApp extends JFrame implements Runnable{
 		setLocationRelativeTo(null);
 		
 		// Fullscreen implementation ....
-		this.setUndecorated(true);
-		setBounds(50,50,screenResolution.width, screenResolution.height);
+		if(true){
+			this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+			this.setUndecorated(true);
+			GraphicsDevice display = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+			display.setFullScreenWindow(this);
+			//getScreenDevices()[0].setFullScreenWindow(this);
+			screenResolution = new Dimension(display.getDisplayMode().getWidth(),display.getDisplayMode().getHeight());
+		}
+		
+
+		setBounds(0,0,screenResolution.width, screenResolution.height);
 		setVisible(true);
 		
 
 		thread = new Thread(this);
+		
+		this.gameStates = new StateStack();
+		this.gameStates.register("game.menu", new EmptyState());
+		this.gameStates.registerAndPush("game.world", new GameState());
+		
 		start();
 	}
 	
@@ -119,23 +138,29 @@ public class NouvisApp extends JFrame implements Runnable{
 			return;
 		}
 		graphic = new NouvGraphics(bs); 
+
+		Rectangle screen = new Rectangle(0, 0, (int)screenResolution.getWidth(), (int)screenResolution.getHeight());
+		graphic.setDisplaySize(screen);
 		
-		graphic.fill(new Color(0,0,0), new Rectangle(0,0, 640, 480) );
-		graphic.draw(logo, new Rectangle(0,0, 640, 128));
-		
-		Vec2 size = new Vec2(24, 24);
-		for(int y = 0; y < 6; y++){
-			for(int x = 0; x < 6; x++){
-				Set<Integer> tileids = tiles.getIDs();
-				//int tid = (int) RandomUtil.arrayRandomItem(tileids.toArray());
-				int tid = 2;
-				graphic.draw(tiles.get(tid).getBaseTexture(), new Vec2(x*size.x,y*size.y).createRectSize(size).getBounds());
-			}
-		}
-		graphic.drawString(crafted, "HalLo Welt!", new Vec2(16,16), Color.white);
-		graphic.drawString(crafted, "Hier könnte Ihre Werbung stehen!", new Vec2(16,32), new Color(224,224,0));
-		graphic.drawString(crafted, "Hier könnte ebenfalls Ihre Werbung stehen!", new Vec2(16,40), new Color(224,224,0), new Color(64,64,64));
-		
+		//graphic.fill(new Color(0,0,0), screen );
+		//graphic.draw(logo, new Rectangle(0,0, 640, 128));
+
+		this.gameStates.draw(graphic);
+//		
+//		Random r = new Random(1234);
+//		Vec2 size = new Vec2(32, 32);
+//		for(int y = 0; y < 6; y++){
+//			for(int x = 0; x < 6; x++){
+//				Set<Integer> tileids = tiles.getIDs();
+//				//int tid = (int) RandomUtil.arrayRandomItem(tileids.toArray());
+//				int tid = tileids.toArray(new Integer[tileids.size()])[r.nextInt(tileids.size())];
+//				graphic.draw(tiles.get(tid).getBaseTexture(), new Vec2(x*size.x,y*size.y).createRectSize(size).getBounds());
+//			}
+//		}
+//		graphic.drawString(crafted, "HalLo Welt!", new Vec2(16,48), Color.white);
+		//graphic.drawString(crafted, "Hier könnte Ihre Werbung stehen!", new Vec2(16,64), new Color(224,224,0));
+//		graphic.drawString(crafted, "Hier könnte ebenfalls Ihre Werbung stehen!", new Vec2(16,72), new Color(224,224,0), new Color(64,64,64));
+//		
 		graphic.dispose();
 		bs.show();
 	}
@@ -156,7 +181,7 @@ public class NouvisApp extends JFrame implements Runnable{
 			{
 				// handles all of the logic restricted time
 				//camera.update(map);
-
+				this.gameStates.update(passed);
 				//this.gameStates.update(passed / 1000000);
 				//screen.update();
 				delta--;

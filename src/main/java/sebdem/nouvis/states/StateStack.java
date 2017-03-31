@@ -47,6 +47,11 @@ public class StateStack
     	mStates.put(key, state);
     }
     
+    public void registerAndPush(String key, IGState state){
+    	register(key, state);
+    	this.push(key);
+    }
+    
     /**
      * @param key = the key of the IGState you want to remove
      */

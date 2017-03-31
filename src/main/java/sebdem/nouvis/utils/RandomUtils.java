@@ -2,7 +2,7 @@ package sebdem.nouvis.utils;
 
 import java.util.Random;
 
-public class RandomUtil {
+public class RandomUtils {
 	private static Random _rng = new Random();
 
 	public static <E> E arrayRandomItem(E[] array) {
@@ -93,7 +93,7 @@ public class RandomUtil {
 		}
 		
 		public E get(){
-			return RandomUtil.arrayRandomItem(arrayData);
+			return RandomUtils.arrayRandomItem(arrayData);
 		}
 		
 		public E[] getArray(){

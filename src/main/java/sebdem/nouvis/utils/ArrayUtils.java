@@ -3,10 +3,10 @@ package sebdem.nouvis.utils;
 public class ArrayUtils {
 
 	public static <E> E arrayRandomItem(E[] array) {
-		return RandomUtil.arrayRandomItem(array);
+		return RandomUtils.arrayRandomItem(array);
 	}
 	public static <E> int arrayRandomIndex(E[] array) {
-		return RandomUtil.arrayRandomIndex(array);
+		return RandomUtils.arrayRandomIndex(array);
 	}
 
 	
