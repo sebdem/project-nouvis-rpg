@@ -104,7 +104,9 @@ public class Tile {
 	{
 		// TODO: Make MetaData implementation easier. ._.
 		ISprite s = baseTexture;
+		/*
 		if (this.connectsTo != null && this.connectsTo.size() > 0)
+		
 		{
 			s = new MetaSprite(baseTexture);
 
@@ -279,6 +281,7 @@ public class Tile {
 			} 
 			sheet = null;
 		}
+		*/
 		return s;
 	}
 
