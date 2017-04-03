@@ -98,66 +98,15 @@ public class Tile {
 	{
 		this.connectsTo = connectsTo;
 	}
-
-
-
-
-	public static void main(String[] args) throws IOException{
-
-		Timer timer = new Timer();
-		timer.start();
-		TileRegistry registry = null;
-		try{
-			registry = new TileRegistry();
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-		timer.end();
-		System.out.println("Finished terrain generation: " + timer.asMilli() + " ms");
-		
-
-		timer.start();
-		WorldSpace w = new WorldGenerator(233423).generate();
-		timer.end();
-		System.out.println("Finished terrain generation: " + timer.asMilli() + " ms");
-		
-		
-
-		timer.start();
-		BufferedImage[][] output1 = new BufferedImage[w.terrain.height][];
-		
-		ISprite s = null;
-		for(int y = 0; y < w.terrain.height;y++){
-			BufferedImage[] output2 = new BufferedImage[w.terrain.width];
-			for(int x = 0; x < w.terrain.width;x++){
-				
-				s = registry.get(
-							w.terrain.getTile(x, y)
-							).getSprite(w, new Vec2(x,y)
-									);
-				output2[x] = s.get();
-			}
-			output1[y] = output2;
-		}
-		timer.end();
-		System.out.println("Finished sprite calculation: " + timer.asMilli() + " ms");
-		
-
-		timer.start();
-		ImageIO.write(ImageUtils.fuse(output1), "png", new File( "metatest/terrain_test.png"));
-		timer.end();
-		System.out.println("Finished fusing sprites: " + timer.asMilli() + " ms");
-		
-		System.out.println("Habe Fertig.");
-	}
-	
 	
 	
 	public ISprite getSprite(WorldSpace world, Vec2 inWorldPosition)
 	{
 		// TODO: Make MetaData implementation easier. ._.
 		ISprite s = baseTexture;
+		/*
 		if (this.connectsTo != null && this.connectsTo.size() > 0)
+		
 		{
 			s = new MetaSprite(baseTexture);
 
@@ -332,6 +281,7 @@ public class Tile {
 			} 
 			sheet = null;
 		}
+		*/
 		return s;
 	}
 

@@ -64,7 +64,7 @@ public class NouvisApp extends JFrame implements Runnable{
 		setLocationRelativeTo(null);
 		
 		// Fullscreen implementation ....
-		if(true){
+		if(false){
 			this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 			this.setUndecorated(true);
 			GraphicsDevice display = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -144,7 +144,7 @@ public class NouvisApp extends JFrame implements Runnable{
 		
 		//graphic.fill(new Color(0,0,0), screen );
 		//graphic.draw(logo, new Rectangle(0,0, 640, 128));
-
+		graphic.fill(Color.black, screen);
 		this.gameStates.draw(graphic);
 //		
 //		Random r = new Random(1234);

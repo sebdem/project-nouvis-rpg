@@ -58,11 +58,12 @@ public class NouvGraphics {
 		draw(sprite, position.createRectSize(sprite.getDim()).getBounds());
 	}
 	public void draw(ISprite sprite, Vec2 position, Vec2 size) {
+		//System.out.println("\t\t"+(int)Math.floor(position.x) + "/" +(int)Math.floor(position.y));
 		graph.drawImage(sprite.get(), 
-				(int)Math.floor(position.x), 
-				(int)Math.floor(position.y), 
-				(int)Math.floor(size.x), 
-				(int)Math.floor(size.y),  null);
+				(int)Math.ceil(position.x), 
+				(int)Math.ceil(position.y), 
+				(int)Math.ceil(size.x), 
+				(int)Math.ceil(size.y),  null);
 	}
 	public void draw(ISprite sprite, Vec2 position, Color tint) {
 		draw(sprite, position.createRectSize(sprite.getDim()).getBounds(), tint);
