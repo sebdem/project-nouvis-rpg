@@ -64,7 +64,7 @@ public class NouvisApp extends JFrame implements Runnable{
 		setLocationRelativeTo(null);
 		
 		// Fullscreen implementation ....
-		if(false){
+		if(true){
 			this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 			this.setUndecorated(true);
 			GraphicsDevice display = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();

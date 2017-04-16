@@ -106,6 +106,19 @@ public class Vec2 {
 		return "Vec2( " + x + " / " + y + " )";
 	}
 	
+	public boolean equals(Object o){
+		boolean value;
+		if (o instanceof Vec2){
+			Vec2 ovec = (Vec2)o;
+			value = (ovec.x == this.x) && (ovec.y == this.y);
+		} 
+		else {
+			value = super.equals(o);
+		}
+		return value;
+	}
+	
+	
 	public Vec2 intOffset(){
 		return new Vec2(this.x % 1, this.y % 1);
 	}

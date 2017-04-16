@@ -45,7 +45,7 @@ public class WorldGenerator {
 		return world;
 
 	}
-
+	
 	private void generateSimplexTerrain(WorldSpace world)
 	{
 		TileTerrainData terrain = world.terrain;

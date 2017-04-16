@@ -28,6 +28,7 @@ public class GameState implements IGState {
 		//world = new WorldSpace();
 		//int[][] map = {{1,2,2},{1,1,2},{3,1,1}};
 		//world.terrain = TileTerrainData.fromArray(map);
+		//camera = new Camera(new Vec2(3,3), new Vec2(48,27));
 		camera = new Camera(new Vec2(3,3), new Vec2(48,27));
 	}
 
@@ -35,13 +36,33 @@ public class GameState implements IGState {
 		return IGState.MODERATE_UPDATE_FREQUENCY;
 	}
 
+	Vec2 cameraDest;
+	
 	public void update(long elapsedTime)
     {
+		if (cameraDest == null || cameraDest.equals(camera.position)){
+			cameraDest = world.randomPntInRange(camera.position, 20);
+		}
+		else {
+			float movex = cameraDest.x - camera.position.x;
+			if (Math.abs(movex) > 0.125){
+				movex = (movex > 0) ? 0.125f : (movex < 0) ? -0.125f : 0;
+			}
+			float movey = cameraDest.y - camera.position.y;
+			if (Math.abs(movey) > 0.125){
+				movey = (movey > 0) ? 0.125f : (movey < 0) ? -0.125f : 0;
+			}
+
+
+			//System.out.println("Camera moves by: " + movex + ", " + movey);
+			this.camera.position.addTo(movex, movey);
+		}
 		//this.camera.position.addTo(((float)Math.random() - 0.5f), ((float)Math.random() - 0.5f));
-		this.camera.position.addTo(0.125f,0);
+		//this.camera.position.addTo(0.125f,0);
     }
 
-	Vec2 tilescale = new Vec2(32f,32f);
+	Vec2 tilescale = new Vec2(40,40);
+	//Vec2 tilescale = new Vec2(32,32);
 	public void draw(NouvGraphics g) {
 		int[][] tileids = world.terrain.getTile(camera.position, camera.bottomRight());
 		

@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+import sebdem.nouvis.datastructs.MetaKey;
 import sebdem.nouvis.datastructs.Timer;
 import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.graphics.ISprite;
@@ -102,63 +103,79 @@ public class Tile {
 	
 	public ISprite getSprite(WorldSpace world, Vec2 inWorldPosition)
 	{
-		// TODO: Make MetaData implementation easier. ._.
-		ISprite s = baseTexture;
-		/*
 		if (this.connectsTo != null && this.connectsTo.size() > 0)
-		
 		{
-			s = new MetaSprite(baseTexture);
+			return getMeta(this,world,inWorldPosition);
+		} else {
+			return this.baseTexture;
+		}
+	
+	}
+	
+	
+	
+	
+	public static HashMap<MetaKey, MetaSprite> metaspritemap = new HashMap<MetaKey, MetaSprite>();
+	
+	public static MetaSprite getMeta(Tile tile, WorldSpace world, Vec2 inWorldPosition){
+		
+		int tul = world.terrain.getTile(inWorldPosition.addNew(-1, -1));
+		int tum = world.terrain.getTile(inWorldPosition.addNew(0, -1));
+		int tur = world.terrain.getTile(inWorldPosition.addNew(1, -1));
 
-			int tul = world.terrain.getTile(inWorldPosition.addNew(-1, -1));
-			int tum = world.terrain.getTile(inWorldPosition.addNew(0, -1));
-			int tur = world.terrain.getTile(inWorldPosition.addNew(1, -1));
+		int tml = world.terrain.getTile(inWorldPosition.addNew(-1, 0));
+		int tmr = world.terrain.getTile(inWorldPosition.addNew(1, 0));
 
-			int tml = world.terrain.getTile(inWorldPosition.addNew(-1, 0));
-			int tmr = world.terrain.getTile(inWorldPosition.addNew(1, 0));
+		int tbl = world.terrain.getTile(inWorldPosition.addNew(-1, 1));
+		int tbm = world.terrain.getTile(inWorldPosition.addNew(0, 1));
+		int tbr = world.terrain.getTile(inWorldPosition.addNew(1, 1));
 
-			int tbl = world.terrain.getTile(inWorldPosition.addNew(-1, 1));
-			int tbm = world.terrain.getTile(inWorldPosition.addNew(0, 1));
-			int tbr = world.terrain.getTile(inWorldPosition.addNew(1, 1));
-
+		MetaKey surroundedBy = new MetaKey(tile, tul,tum,tur,tml,tmr,tbl,tbm,tbr);
+		
+		
+		MetaSprite s  = metaspritemap.get(surroundedBy);
+		if (s == null) {
+			System.out.println("Generates New");
+			s = new MetaSprite(tile.baseTexture);
+			
 			int ul = 4, 
 				ur = 3,
 				bl = 1, 
 				br = 0;
 			
-			MetaSheet sheet = null;//(MetaSheet) this.connectsTo.values().toArray()[0];
+			MetaSheet sheet = null;//(MetaSheet) tile.connectsTo.values().toArray()[0];
 			boolean b1,b2,b3;
 			
 			// Top Left - Default: 4
 			{
-				b1 = !this.connectsTo.containsKey(tul);//isSelf(tul);
-				b2 = !this.connectsTo.containsKey(tum);//isSelf(tum);
-				b3 = !this.connectsTo.containsKey(tml);//isSelf(tml);
+				b1 = !tile.connectsTo.containsKey(tul);//isSelf(tul);
+				b2 = !tile.connectsTo.containsKey(tum);//isSelf(tum);
+				b3 = !tile.connectsTo.containsKey(tml);//isSelf(tml);
 				
 				if (b2 && b3){
 					if (b1)
 						ul = 4;
 					else {
 						ul = 2;
-						if (this.connectsTo.containsKey(tul))
-							sheet = this.connectsTo.get(tul);
+						if (tile.connectsTo.containsKey(tul))
+							sheet = tile.connectsTo.get(tul);
 					}
 				} else if (!b2 && b3){
 					ul = 1;
-					if (this.connectsTo.containsKey(tum))
-						sheet = this.connectsTo.get(tum);
+					if (tile.connectsTo.containsKey(tum))
+						sheet = tile.connectsTo.get(tum);
 				} else if (b2 && !b3){
 					ul = 3;
-					if (this.connectsTo.containsKey(tml))
-						sheet = this.connectsTo.get(tml);
+					if (tile.connectsTo.containsKey(tml))
+						sheet = tile.connectsTo.get(tml);
 				} else if (!b2 && !b3){
 					ul = 0;
-					if (this.connectsTo.containsKey(tml))
-						sheet = this.connectsTo.get(tml);
+					if (tile.connectsTo.containsKey(tml))
+						sheet = tile.connectsTo.get(tml);
 				} else {
 					ul = 4;
-					if (this.connectsTo.containsKey(tul))
-						sheet = this.connectsTo.get(tul);
+					if (tile.connectsTo.containsKey(tul))
+						sheet = tile.connectsTo.get(tul);
 				}
 			}
 			
@@ -169,37 +186,37 @@ public class Tile {
 			
 			// Top Right - Default: 3
 			{
-				b1 = !this.connectsTo.containsKey(tur);//isSelf(tur);
-				b2 = !this.connectsTo.containsKey(tum);//isSelf(tum);
-				b3 = !this.connectsTo.containsKey(tmr);//isSelf(tmr);
+				b1 = !tile.connectsTo.containsKey(tur);//isSelf(tur);
+				b2 = !tile.connectsTo.containsKey(tum);//isSelf(tum);
+				b3 = !tile.connectsTo.containsKey(tmr);//isSelf(tmr);
 				
 				if (b2 && b3){
 					if (b1)
 						ur = 3;
 					else {
 						ur = 2;
-						if (this.connectsTo.containsKey(tur))
-							sheet = this.connectsTo.get(tur);
+						if (tile.connectsTo.containsKey(tur))
+							sheet = tile.connectsTo.get(tur);
 					}
 				} else if (!b2 && b3){
 					ur = 0;
-					if (this.connectsTo.containsKey(tum))
-						sheet = this.connectsTo.get(tum);
+					if (tile.connectsTo.containsKey(tum))
+						sheet = tile.connectsTo.get(tum);
 				} else if (b2 && !b3){
 					ur = 4;
-					if (this.connectsTo.containsKey(tmr))
-						sheet = this.connectsTo.get(tmr);
+					if (tile.connectsTo.containsKey(tmr))
+						sheet = tile.connectsTo.get(tmr);
 				} else if (!b2 && !b3){
 					ur = 1;
-					if (this.connectsTo.containsKey(tmr))
-						sheet = this.connectsTo.get(tmr);
+					if (tile.connectsTo.containsKey(tmr))
+						sheet = tile.connectsTo.get(tmr);
 				} else {
 					ur = 3;
-					if (this.connectsTo.containsKey(tur))
-						sheet = this.connectsTo.get(tur);
+					if (tile.connectsTo.containsKey(tur))
+						sheet = tile.connectsTo.get(tur);
 				}
 			}
-
+	
 			if (sheet != null) {
 				((MetaSprite)s).setTopRight(sheet.topRight[ur]);
 			} 
@@ -207,37 +224,37 @@ public class Tile {
 			
 			// Bottom Left - Default: 1
 			{
-				b1 = !this.connectsTo.containsKey(tbl);//isSelf(tbl);
-				b2 = !this.connectsTo.containsKey(tbm);//isSelf(tbm);
-				b3 = !this.connectsTo.containsKey(tml);//isSelf(tml);
+				b1 = !tile.connectsTo.containsKey(tbl);//isSelf(tbl);
+				b2 = !tile.connectsTo.containsKey(tbm);//isSelf(tbm);
+				b3 = !tile.connectsTo.containsKey(tml);//isSelf(tml);
 				
 				if (b2 && b3){
 					if (b1)
 						bl = 1;
 					else {
 						bl = 2;
-						if (this.connectsTo.containsKey(tbl))
-							sheet = this.connectsTo.get(tbl);
+						if (tile.connectsTo.containsKey(tbl))
+							sheet = tile.connectsTo.get(tbl);
 					}
 				} else if (!b2 && b3){
 					bl = 4;
-					if (this.connectsTo.containsKey(tbm))
-						sheet = this.connectsTo.get(tbm);
+					if (tile.connectsTo.containsKey(tbm))
+						sheet = tile.connectsTo.get(tbm);
 				} else if (b2 && !b3){
 					bl = 0;
-					if (this.connectsTo.containsKey(tml))
-						sheet = this.connectsTo.get(tml);
+					if (tile.connectsTo.containsKey(tml))
+						sheet = tile.connectsTo.get(tml);
 				} else if (!b2 && !b3){
 					bl = 3;
-					if (this.connectsTo.containsKey(tml))
-						sheet = this.connectsTo.get(tml);
+					if (tile.connectsTo.containsKey(tml))
+						sheet = tile.connectsTo.get(tml);
 				} else {
 					bl = 1;
-					if (this.connectsTo.containsKey(tbl))
-						sheet = this.connectsTo.get(tbl);
+					if (tile.connectsTo.containsKey(tbl))
+						sheet = tile.connectsTo.get(tbl);
 				}
 			}
-
+	
 			if (sheet != null) {
 				((MetaSprite)s).setBottomLeft(sheet.bottomLeft[bl]);
 			} 
@@ -245,45 +262,47 @@ public class Tile {
 			
 			// Bottom Right - Default: 0
 			{
-				b1 = !this.connectsTo.containsKey(tbr);//isSelf(tbr);
-				b2 = !this.connectsTo.containsKey(tbm);//isSelf(tbm);
-				b3 = !this.connectsTo.containsKey(tmr);//isSelf(tmr);
+				b1 = !tile.connectsTo.containsKey(tbr);//isSelf(tbr);
+				b2 = !tile.connectsTo.containsKey(tbm);//isSelf(tbm);
+				b3 = !tile.connectsTo.containsKey(tmr);//isSelf(tmr);
 				
 				if (b2 && b3){
 					if (b1)
 						br = 0;
 					else {
 						br = 2;
-						if (this.connectsTo.containsKey(tbr))
-							sheet = this.connectsTo.get(tbr);
+						if (tile.connectsTo.containsKey(tbr))
+							sheet = tile.connectsTo.get(tbr);
 					}
 				} else if (!b2 && b3){
 					br = 3;
-					if (this.connectsTo.containsKey(tbm))
-						sheet = this.connectsTo.get(tbm);
+					if (tile.connectsTo.containsKey(tbm))
+						sheet = tile.connectsTo.get(tbm);
 				} else if (b2 && !b3){
 					br = 1;
-					if (this.connectsTo.containsKey(tmr))
-					sheet = this.connectsTo.get(tmr);
+					if (tile.connectsTo.containsKey(tmr))
+					sheet = tile.connectsTo.get(tmr);
 				} else if (!b2 && !b3){
 					br = 4;
-					if (this.connectsTo.containsKey(tmr))
-						sheet = this.connectsTo.get(tmr);
+					if (tile.connectsTo.containsKey(tmr))
+						sheet = tile.connectsTo.get(tmr);
 				} else {
 					br = 0;
-					if (this.connectsTo.containsKey(tbr))
-						sheet = this.connectsTo.get(tbr);
+					if (tile.connectsTo.containsKey(tbr))
+						sheet = tile.connectsTo.get(tbr);
 				}
 			}
-
+	
 			if (sheet != null) {
 				((MetaSprite)s).setBottomRight(sheet.bottomRight[br]);
 			} 
 			sheet = null;
+			metaspritemap.put(surroundedBy, s);
 		}
-		*/
 		return s;
 	}
+	
+	
 
 
 	public void drawTile(NouvGraphics graph, Rectangle dest, WorldSpace world, Vec2 inWorldPosition)

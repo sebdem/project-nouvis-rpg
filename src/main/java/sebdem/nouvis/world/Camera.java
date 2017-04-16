@@ -32,4 +32,8 @@ public class Camera {
 		return position.addNew(size);
 	}
 	
+	public Vec2 getFocusPoint(){
+		return this.position.addNew(this.size.multiplyNew(0.5f));
+	}
+	
 }

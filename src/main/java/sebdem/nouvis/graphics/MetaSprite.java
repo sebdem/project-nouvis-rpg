@@ -29,11 +29,13 @@ public class MetaSprite implements ISprite {
 		setTopRight(new Sprite(src.getSubimage(		halfw, 		0, halfw, halfh)));
 		setBottomLeft(new Sprite(src.getSubimage(		0, 	halfh, halfw, halfh)));
 		setBottomRight(new Sprite(src.getSubimage(	halfw, 	halfh, halfw, halfh)));
+		src = null;
 
 	}
 
 	public void setTopLeft(Sprite sprite) {
 		this.corners[0] = sprite;
+		this.updatePending = true;
 	}
 
 	public Sprite getTopLeft() {
@@ -42,6 +44,7 @@ public class MetaSprite implements ISprite {
 
 	public void setTopRight(Sprite sprite) {
 		this.corners[1] = sprite;
+		this.updatePending = true;
 	}
 
 	public Sprite getTopRight() {
@@ -50,6 +53,7 @@ public class MetaSprite implements ISprite {
 
 	public void setBottomLeft(Sprite sprite) {
 		this.corners[2] = sprite;
+		this.updatePending = true;
 	}
 
 	public Sprite getBottomLeft() {
@@ -58,18 +62,27 @@ public class MetaSprite implements ISprite {
 
 	public void setBottomRight(Sprite sprite) {
 		this.corners[3] = sprite;
+		this.updatePending = true;
 	}
 
 	public Sprite getBottomRight() {
 		return corners[3];
 	}
 
+	
+	private BufferedImage combined = null;
+	private boolean updatePending = true;
+	
 	public BufferedImage get() {
-		return ImageUtils.fuse(
-				new BufferedImage[][] { 
-					{ this.getTopLeft().texture, getTopRight().texture }, 
-					{ this.getBottomLeft().texture, getBottomRight().texture } 
-				});
+		if (combined == null || updatePending){
+			combined =  ImageUtils.fuse(
+					new BufferedImage[][] { 
+						{ this.getTopLeft().texture, getTopRight().texture }, 
+						{ this.getBottomLeft().texture, getBottomRight().texture } 
+					});
+			updatePending = false;
+		}
+		return combined;
 	}
 
 	public BufferedImage tint(Color c) {
@@ -77,7 +90,10 @@ public class MetaSprite implements ISprite {
 	}
 
 	public BufferedImage tint(int c) {
-		// TODO Tintint of fused Image
+		for(Sprite s : corners){
+			s.tint(c);
+		}
+		this.updatePending = true;
 		return get();
 	}
 
