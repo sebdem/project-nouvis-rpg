@@ -1,9 +1,9 @@
 package sebdem.nouvis.entity;
 
 import sebdem.nouvis.datastructs.Vec2;
-import sebdem.nouvis.graphics.EntitySprite;
-
+import sebdem.nouvis.graphics.ISprite;
 import sebdem.nouvis.graphics.NouvGraphics;
+import sebdem.nouvis.world.Camera;
 
 public abstract class EntityBase {
 	
@@ -11,19 +11,26 @@ public abstract class EntityBase {
 	
 	public Vec2 size;
 	
-	public EntitySprite sprite;
+	public ISprite sprite;
 	
 	public EntityBase(){
-		
+		this(new Vec2(1,1), new Vec2(1,1));
+	}
+	public EntityBase(Vec2 position, Vec2 size){
+		this.position = position;
+		this.size = size;
 	}
 	
 	public abstract void update(long elapsedTime);
 	
 
 	public abstract void draw(NouvGraphics g);
+
+	public abstract void draw(NouvGraphics g, Camera camera, Vec2 upscalse);
 	
 	
-	public EntitySprite getSprite(){
+	public ISprite getSprite(){
 		return this.sprite;
 	}
+
 }
