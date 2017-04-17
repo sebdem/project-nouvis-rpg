@@ -1,7 +1,10 @@
 package sebdem.nouvis.states;
 
+import java.awt.Color;
+
 import sebdem.nouvis.app.NouvisApp;
 import sebdem.nouvis.datastructs.Vec2;
+import sebdem.nouvis.entity.EntityPlayer;
 import sebdem.nouvis.graphics.ISprite;
 import sebdem.nouvis.graphics.NouvGraphics;
 import sebdem.nouvis.world.Camera;
@@ -19,17 +22,19 @@ public class GameState implements IGState {
 	Camera camera;
 
 	TileRegistry tiles;
+	EntityPlayer player;
 	
 	public GameState()
 	{ 
 		tiles = NouvisApp.tiles;
 		//camera = new Camera(new Vec2(5,5), new Vec2(48,27));
-		world = new WorldGenerator(233423).generate();
-		//world = new WorldSpace();
-		//int[][] map = {{1,2,2},{1,1,2},{3,1,1}};
-		//world.terrain = TileTerrainData.fromArray(map);
+		world = new WorldGenerator(123).generate();
+//		world = new WorldSpace();
+//		int[][] map = {{1,2,2},{1,1,2},{3,1,1}};
+//		world.terrain = TileTerrainData.fromArray(map);
 		//camera = new Camera(new Vec2(3,3), new Vec2(48,27));
-		camera = new Camera(new Vec2(3,3), new Vec2(48,27));
+		camera = new Camera(new Vec2(9,9), new Vec2(24,24));
+		player = new EntityPlayer(camera.position.copy(), new Vec2(1,1));
 	}
 
 	public int updateFrequency() {
@@ -40,28 +45,30 @@ public class GameState implements IGState {
 	
 	public void update(long elapsedTime)
     {
-		if (cameraDest == null || cameraDest.equals(camera.position)){
-			cameraDest = world.randomPntInRange(camera.position, 20);
+		if (cameraDest == null || cameraDest.equals(player.position)){
+			cameraDest = world.randomPntInRange(player.position, 40);
 		}
 		else {
-			float movex = cameraDest.x - camera.position.x;
-			if (Math.abs(movex) > 0.125){
-				movex = (movex > 0) ? 0.125f : (movex < 0) ? -0.125f : 0;
+			float speed = 0.125f;
+			float movex = cameraDest.x - player.position.x;
+			if (Math.abs(movex) > speed){
+				movex = (movex > 0) ? speed : (movex < 0) ? -speed : 0;
 			}
-			float movey = cameraDest.y - camera.position.y;
-			if (Math.abs(movey) > 0.125){
-				movey = (movey > 0) ? 0.125f : (movey < 0) ? -0.125f : 0;
+			float movey = cameraDest.y - player.position.y;
+			if (Math.abs(movey) > speed){
+				movey = (movey> 0) ? speed : (movey < 0) ? -speed : 0;
 			}
 
 
 			//System.out.println("Camera moves by: " + movex + ", " + movey);
-			this.camera.position.addTo(movex, movey);
+			player.position.addTo(movex, movey);
 		}
 		//this.camera.position.addTo(((float)Math.random() - 0.5f), ((float)Math.random() - 0.5f));
 		//this.camera.position.addTo(0.125f,0);
+		this.camera.relateTo(player.position);
     }
 
-	Vec2 tilescale = new Vec2(40,40);
+	Vec2 tilescale = new Vec2(32,32);
 	//Vec2 tilescale = new Vec2(32,32);
 	public void draw(NouvGraphics g) {
 		int[][] tileids = world.terrain.getTile(camera.position, camera.bottomRight());
@@ -84,6 +91,10 @@ public class GameState implements IGState {
 				}
 			}	
 		}
+		 
+		this.player.draw(g, camera, tilescale);
+		g.drawLine(new Vec2(0, player.lastDrawPos.y), new Vec2(g.bottomRight().x, player.lastDrawPos.y), Color.white);
+		g.drawLine(new Vec2(player.lastDrawPos.x, 0), new Vec2(player.lastDrawPos.x, g.bottomRight().y), Color.white);
 		tile = null;
 		s = null;
 		drawPos = null;

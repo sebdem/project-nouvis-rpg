@@ -76,6 +76,13 @@ public class NouvGraphics {
 		graph.drawImage(sprite.tint(tint), r.x, r.y, r.width, r.height, null);
 	}
 	
+	
+	public void drawLine(Vec2 from, Vec2 to,  Color color){
+		graph.setColor(color);
+		graph.drawLine((int)from.x,(int)from.y,(int)to.x,(int)to.y);
+	}
+	
+	
 	public void dispose(){
 		graph.dispose();
 	}

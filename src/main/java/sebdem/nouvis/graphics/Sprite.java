@@ -75,6 +75,10 @@ public class Sprite implements ISprite{
 	{
 		resource =  res;
 	}
-
+	
+	
+	public Sprite getSubSprite(int x, int y, int w, int h){
+		return new Sprite(this.texture.getSubimage(x, y, w, h));
+	}
 
 }

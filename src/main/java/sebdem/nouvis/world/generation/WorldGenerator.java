@@ -117,7 +117,8 @@ public class WorldGenerator {
 		float layerWeight = 1;
 		@SuppressWarnings("unused")
 		float weightSum = 0;
-
+		Random r = new Random(seed);
+		
 		for (int octave = 0; octave < octaves; octave++)
 		{
 			// Calculate single layer/octave of simplex noise, then add it to
@@ -126,7 +127,7 @@ public class WorldGenerator {
 			{
 				for (int y = 0; y < height; y++)
 				{
-					totalNoise[x][y] += (float) SimplexNoise.noise(x * layerFrequency, y * layerFrequency) * layerWeight;
+					totalNoise[x][y] +=(float) SimplexNoise.noise(x * layerFrequency, y * layerFrequency) * layerWeight;
 				}
 			}
 
