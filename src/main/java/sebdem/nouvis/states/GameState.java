@@ -33,7 +33,8 @@ public class GameState implements IGState {
 //		int[][] map = {{1,2,2},{1,1,2},{3,1,1}};
 //		world.terrain = TileTerrainData.fromArray(map);
 		//camera = new Camera(new Vec2(3,3), new Vec2(48,27));
-		camera = new Camera(new Vec2(9,9), new Vec2(24,24));
+		camera = new Camera(new Vec2(9,9), new Vec2(20, 15));
+
 		player = new EntityPlayer(camera.position.copy(), new Vec2(1,1));
 	}
 
@@ -68,7 +69,9 @@ public class GameState implements IGState {
 		this.camera.relateTo(player.position);
     }
 
-	Vec2 tilescale = new Vec2(32,32);
+	
+	
+	Vec2 tilescale = new Vec2(64,64);
 	//Vec2 tilescale = new Vec2(32,32);
 	public void draw(NouvGraphics g) {
 		int[][] tileids = world.terrain.getTile(camera.position, camera.bottomRight());
