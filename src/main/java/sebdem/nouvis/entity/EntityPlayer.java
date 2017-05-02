@@ -4,6 +4,7 @@ import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.graphics.NouvGraphics;
 import sebdem.nouvis.graphics.Sprite;
 import sebdem.nouvis.resource.SpriteResource;
+import sebdem.nouvis.utils.RandomUtils;
 import sebdem.nouvis.world.Camera;
 
 public class EntityPlayer extends EntityLiving {
