@@ -36,34 +36,17 @@ public class GameState implements IGState {
 		camera = new Camera(new Vec2(9,9), new Vec2(20, 15));
 
 		player = new EntityPlayer(camera.position.copy(), new Vec2(1,1));
+		player.world = world;
 	}
 
 	public int updateFrequency() {
 		return IGState.MODERATE_UPDATE_FREQUENCY;
 	}
 
-	Vec2 cameraDest;
 	
 	public void update(long elapsedTime)
     {
-		if (cameraDest == null || cameraDest.equals(player.position)){
-			cameraDest = world.randomPntInRange(player.position, 40);
-		}
-		else {
-			float speed = 0.125f;
-			float movex = cameraDest.x - player.position.x;
-			if (Math.abs(movex) > speed){
-				movex = (movex > 0) ? speed : (movex < 0) ? -speed : 0;
-			}
-			float movey = cameraDest.y - player.position.y;
-			if (Math.abs(movey) > speed){
-				movey = (movey> 0) ? speed : (movey < 0) ? -speed : 0;
-			}
-
-
-			//System.out.println("Camera moves by: " + movex + ", " + movey);
-			player.position.addTo(movex, movey);
-		}
+		player.update(elapsedTime);
 		//this.camera.position.addTo(((float)Math.random() - 0.5f), ((float)Math.random() - 0.5f));
 		//this.camera.position.addTo(0.125f,0);
 		this.camera.relateTo(player.position);
@@ -96,8 +79,8 @@ public class GameState implements IGState {
 		}
 		 
 		this.player.draw(g, camera, tilescale);
-		g.drawLine(new Vec2(0, player.lastDrawPos.y), new Vec2(g.bottomRight().x, player.lastDrawPos.y), Color.white);
-		g.drawLine(new Vec2(player.lastDrawPos.x, 0), new Vec2(player.lastDrawPos.x, g.bottomRight().y), Color.white);
+		//g.drawLine(new Vec2(0, player.lastDrawPos.y), new Vec2(g.bottomRight().x, player.lastDrawPos.y), Color.white);
+		//g.drawLine(new Vec2(player.lastDrawPos.x, 0), new Vec2(player.lastDrawPos.x, g.bottomRight().y), Color.white);
 		tile = null;
 		s = null;
 		drawPos = null;

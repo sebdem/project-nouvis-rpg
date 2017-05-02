@@ -6,24 +6,32 @@ import sebdem.nouvis.world.Camera;
 
 public class EntityLiving extends EntityBase {
 
+	public Vec2 movevec;
 	
 	public EntityLiving(Vec2 position, Vec2 size){
 		super(position, size);
+		this.movevec = new Vec2(0,0);
 	}
 	
 	@Override
 	public void update(long elapsedTime)
 	{
-		// TODO Auto-generated method stub
-
+		move();
 	}
 
+	public void move()
+	{
+		if (this.movevec != null)
+			this.position.addTo(movevec);
+	}
+	
 	@Override
 	public void draw(NouvGraphics g)
 	{
 		g.draw(this.sprite, this.position);
 	}
 
+	
 	
 	public Vec2 lastDrawPos;
 	
