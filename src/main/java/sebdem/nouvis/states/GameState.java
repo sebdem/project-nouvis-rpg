@@ -35,7 +35,7 @@ public class GameState implements IGState {
 		//camera = new Camera(new Vec2(3,3), new Vec2(48,27));
 		camera = new Camera(new Vec2(9,9), new Vec2(20, 15));
 
-		player = new EntityPlayer(camera.position.copy(), new Vec2(1,1));
+		player = new EntityPlayer(world.randomPnt(), new Vec2(1,1));
 		player.world = world;
 	}
 
