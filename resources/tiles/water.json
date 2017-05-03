@@ -1,6 +1,6 @@
 {
 	"id": 1,
-	"walkable": true,
+	"walkable": false,
 	"baseTexture": "water_base",
 	
 	"connectsTo": [ 

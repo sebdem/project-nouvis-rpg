@@ -1,8 +1,10 @@
 package sebdem.nouvis.entity;
 
+import sebdem.nouvis.app.NouvisApp;
 import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.graphics.NouvGraphics;
 import sebdem.nouvis.world.Camera;
+import sebdem.nouvis.world.Tile;
 
 public class EntityLiving extends EntityBase {
 
@@ -21,9 +23,19 @@ public class EntityLiving extends EntityBase {
 
 	public void move()
 	{
-		if (this.movevec != null)
-			this.position.addTo(movevec);
+		if (this.movevec != null){
+			if (canMoveTo(this.position.addNew(movevec)))
+				this.position.addTo(movevec);
+		}
 	}
+	
+	public boolean canMoveTo(Vec2 target){
+		return !(	this.world.isPosOccupied(target) 
+				 || this.world.isPosOccupied(target.addNew(size.x, 0))
+				 || this.world.isPosOccupied(target.addNew(0, size.y))
+				 || this.world.isPosOccupied(target.addNew(size)));
+	}
+	
 	
 	@Override
 	public void draw(NouvGraphics g)
