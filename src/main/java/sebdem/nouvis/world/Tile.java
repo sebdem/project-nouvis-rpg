@@ -327,12 +327,11 @@ public class Tile {
 		
 		private class MetaMapping{
 			protected int id;
+			protected boolean all;
 			protected String texture;
 		}
 		
 		public Tile createTile(){
-			// TODO: Metatile based on Tile.json configuration
-			// TODO: Load Resources from a more-or-less global(singleton?) class 
 			
 			Tile tile = new Tile();
 			tile.setId(id);

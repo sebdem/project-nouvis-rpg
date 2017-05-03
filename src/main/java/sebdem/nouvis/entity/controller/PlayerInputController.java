@@ -3,13 +3,17 @@ package sebdem.nouvis.entity.controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import sebdem.nouvis.datastructs.Vec2;
+import sebdem.nouvis.app.NouvisApp;
 import sebdem.nouvis.entity.EntityLiving;
+import sebdem.nouvis.world.Tile;
 
 public class PlayerInputController extends EntityController implements KeyListener{
 
+	public Tile selectedTile;
+	
 	public PlayerInputController(EntityLiving entity) {
 		super(entity);
+		selectedTile = NouvisApp.tiles.getNextLargest(0);
 	}
 
 	@Override
@@ -35,6 +39,9 @@ public class PlayerInputController extends EntityController implements KeyListen
 			case KeyEvent.VK_A: movekey[3] = true; break;
 			case KeyEvent.VK_SHIFT: movekey[4] = true; break;
 			case KeyEvent.VK_F1: new DestinationWalkerController(this.entity); break;
+			case KeyEvent.VK_SPACE : 
+				this.entity.world.place(selectedTile.getId(), this.entity.position.addNew(0, -1));
+				
 		}
 	}
 
@@ -47,6 +54,8 @@ public class PlayerInputController extends EntityController implements KeyListen
 			case KeyEvent.VK_D: movekey[2] = false; break;
 			case KeyEvent.VK_A: movekey[3] = false; break;
 			case KeyEvent.VK_SHIFT: movekey[4] = false; break;
+			case KeyEvent.VK_LEFT: selectedTile = NouvisApp.tiles.getNextSmallest((selectedTile != null) ? selectedTile.getId() : Integer.MAX_VALUE); break;
+			case KeyEvent.VK_RIGHT: selectedTile =NouvisApp.tiles.getNextLargest((selectedTile != null) ? selectedTile.getId() : 0); break;
 		}
 	}
 

@@ -40,6 +40,10 @@ public class WorldSpace {
 		
 	}
 	
+	public boolean place(int tileid, Vec2 pos){
+		return this.terrain.setTile((int)pos.x, (int)pos.y, tileid);
+	}
+	
 	public Vec2 randomPntInRange(Vec2 origin, int radius){
 		float f1;
 		float x = origin.x, y = origin.y;

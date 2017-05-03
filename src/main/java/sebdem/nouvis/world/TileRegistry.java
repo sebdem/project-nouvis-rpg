@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +35,39 @@ public class TileRegistry {
 	
 	public static void main(String[] args) throws IOException{
 		new TileRegistry();
+	}
+	
+	public Tile getNextLargest(int id){
+		return this.get(getNextLargestId(id));
+	}
+	
+	public int getNextLargestId(int id){
+		Set<Integer> keys = register.keySet();
+		int larger = id;
+		
+		Integer[] tileids = keys.toArray(new Integer[keys.size()]);
+		Arrays.parallelSort(tileids);
+		int lindx = Arrays.binarySearch(tileids, larger);
+		if (lindx < tileids.length - 1){
+			larger = tileids[lindx+1];
+		}
+		return larger;
+	}
+
+	public Tile getNextSmallest(int id){
+		return this.get(getNextSmallestId(id));
+	}
+	public int getNextSmallestId(int id){
+		Set<Integer> keys = register.keySet();
+		int smaller = id;
+		
+		Integer[] tileids = keys.toArray(new Integer[keys.size()]);
+		Arrays.parallelSort(tileids);
+		int lindx = Arrays.binarySearch(tileids, smaller);
+		if (lindx > 0){
+			smaller = tileids[lindx-1];
+		}
+		return smaller;
 	}
 	
 	public Tile get(int id){

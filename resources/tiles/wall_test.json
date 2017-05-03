@@ -1,0 +1,15 @@
+{
+	"id": 8,
+	"walkable": true,
+	"baseTexture": "wall_base",
+	
+	"connectsTo": [ 
+		{ "id": 1, "texture": "wall_test" },
+		{ "id": 2, "texture": "wall_test" },
+		{ "id": 3, "texture": "wall_test" },
+		{ "id": 4, "texture": "wall_test" },
+		{ "id": 5, "texture": "wall_test" }
+	]
+	
+
+}

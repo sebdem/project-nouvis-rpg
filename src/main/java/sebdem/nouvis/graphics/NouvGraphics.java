@@ -86,6 +86,15 @@ public class NouvGraphics {
 	public void dispose(){
 		graph.dispose();
 	}
+	
+	public void fill(Color color, Vec2 position, Vec2 size) {
+		graph.setColor(color);
+		graph.fillRect( 
+				(int)Math.ceil(position.x), 
+				(int)Math.ceil(position.y), 
+				(int)Math.ceil(size.x), 
+				(int)Math.ceil(size.y));
+	}
 
 	public void fill(Color color, Rectangle r){
 		graph.setColor(color);
