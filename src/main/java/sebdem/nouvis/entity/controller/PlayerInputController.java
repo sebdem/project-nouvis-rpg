@@ -3,18 +3,20 @@ package sebdem.nouvis.entity.controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.entity.EntityLiving;
 
 public class PlayerInputController extends EntityController implements KeyListener{
 
 	public PlayerInputController(EntityLiving entity) {
 		super(entity);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void update(long elapsedTime) {
-		
+		float speed = (this.movekey[4]) ? 0.125f : 0.085f;
+		this.entity.movevec.x = this.movekey[2] ? speed : (this.movekey[3] ? -speed : 0);
+		this.entity.movevec.y = this.movekey[0] ? -speed : (this.movekey[1] ? speed : 0);
 	}
 
 	
@@ -32,6 +34,7 @@ public class PlayerInputController extends EntityController implements KeyListen
 			case KeyEvent.VK_D: movekey[2] = true; break;
 			case KeyEvent.VK_A: movekey[3] = true; break;
 			case KeyEvent.VK_SHIFT: movekey[4] = true; break;
+			case KeyEvent.VK_F1: new DestinationWalkerController(this.entity); break;
 		}
 	}
 
@@ -42,6 +45,7 @@ public class PlayerInputController extends EntityController implements KeyListen
 			case KeyEvent.VK_W: movekey[0] = false; break;
 			case KeyEvent.VK_S: movekey[1] = false; break;
 			case KeyEvent.VK_D: movekey[2] = false; break;
+			case KeyEvent.VK_A: movekey[3] = false; break;
 			case KeyEvent.VK_SHIFT: movekey[4] = false; break;
 		}
 	}

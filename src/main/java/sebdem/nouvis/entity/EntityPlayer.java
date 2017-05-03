@@ -18,11 +18,10 @@ public class EntityPlayer extends EntityLiving {
 		this.sprite = new Sprite(new SpriteResource("player", "debug.png"));
 	}
 	
-	Vec2 destination;
 	
 	public void update(long elapsedTime){
 		super.update(elapsedTime);
-		if (destination == null || destination.equals(this.position)){
+		/*if (destination == null || destination.equals(this.position)){
 			destination = this.world.randomPntInRange(this.position, 40);
 		}
 		else {
@@ -37,7 +36,7 @@ public class EntityPlayer extends EntityLiving {
 			}
 			this.movevec.x = movex;
 			this.movevec.y = movey;
-		}
+		}*/
 	}
 	
 	@Override
@@ -46,16 +45,16 @@ public class EntityPlayer extends EntityLiving {
 		lastDrawPos = this.position.substractNew(camera.position).multiplyNew(upscalse.x);
 		int sx = 0, sy = 0;
 
-			if(this.movevec.x >= 0.125f){
+			if(this.movevec.x >= 0.075f){
 				sy = 2;
 			}
-			else if(this.movevec.x <= -0.125f){
+			else if(this.movevec.x <= -0.075f){
 				sy = 1;
 			}
-			if(this.movevec.y >= 0.125f){
+			if(this.movevec.y >= 0.075f){
 				sx = 1;
 			}
-			else if(this.movevec.y <= -0.125f){
+			else if(this.movevec.y <= -0.075f){
 				sx = 2;
 			} 
 

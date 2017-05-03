@@ -7,9 +7,9 @@ import sebdem.nouvis.entity.EntityLiving;
 
 public abstract class EntityController {
 	
-	private static HashMap<EntityLiving, Stack<EntityController> >registry = new HashMap<EntityLiving, Stack<EntityController>>();
+	protected static HashMap<EntityLiving, Stack<EntityController> >registry = new HashMap<EntityLiving, Stack<EntityController>>();
 	
-	private EntityLiving entity;
+	protected EntityLiving entity;
 	
 	public EntityController(EntityLiving entity){
 		this.entity = entity;

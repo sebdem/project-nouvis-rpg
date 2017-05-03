@@ -14,6 +14,7 @@ import java.util.Set;
 import javax.swing.JFrame;
 
 import sebdem.nouvis.datastructs.Vec2;
+import sebdem.nouvis.entity.controller.EntityController;
 import sebdem.nouvis.graphics.NouvFont;
 import sebdem.nouvis.graphics.NouvGraphics;
 import sebdem.nouvis.graphics.Sprite;
@@ -82,7 +83,8 @@ public class NouvisApp extends JFrame implements Runnable{
 		
 		this.gameStates = new StateStack();
 		this.gameStates.register("game.menu", new EmptyState());
-		this.gameStates.registerAndPush("game.world", new GameState());
+		this.gameStates.registerAndPush("game.world", new GameState(this));
+		
 		
 		start();
 	}

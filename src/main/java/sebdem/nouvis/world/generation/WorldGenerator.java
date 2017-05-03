@@ -18,8 +18,12 @@ public class WorldGenerator {
 
 	int width;
 	int height;
+	
 	int landmasses;
 	long seed;
+	
+	int xgenoff;
+	int ygenoff;
 	
 	public WorldGenerator(long seed) {
 //		width = 640;
@@ -27,9 +31,12 @@ public class WorldGenerator {
 		width = 640;
 		height = 480;
 		this.seed = seed;
-
+		
 		landmasses = RandomUtils.randomIntAround(15, (int) (Math.random() * 6), (int) (Math.random() * 3));
 
+		Random r = new Random(this.seed);
+		xgenoff = r.nextInt(4960);
+		ygenoff = r.nextInt(4960);
 	}
 
 	public WorldSpace generate()
@@ -49,11 +56,11 @@ public class WorldGenerator {
 	private void generateSimplexTerrain(WorldSpace world)
 	{
 		TileTerrainData terrain = world.terrain;
-		//Random r = new Random(this.seed);
 		
 		//float[][] values = generateOctavedSimplexNoise(width, height, r.nextInt(8) + 3, 0.25f, 0.00928125f); 
 		//float[][] values = generateOctavedSimplexNoise(width, height, r.nextInt(8) + 3, 0.55f, 0.003140625f); 
-		float[][] values = generateOctavedSimplexNoise(width, height, 8, 0.40f, 0.005f); //r.nextInt(8) + 1
+		float[][] values = generateOctavedSimplexNoise(width, height, 5, 0.425f, 0.005f); //r.nextInt(8) + 1
+		
 		
 		BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		
@@ -66,35 +73,8 @@ public class WorldGenerator {
 			{
 				value = Math.abs(values[x][y]);
 
-				if (value > 0.3f)
-				{
-					if (value > 0.525f){
-						if (value > 0.575f)
-						{
-							if (value > 0.85f)
-							{
-								terrain.setTile(x, y, 4);
-							} 
-							else 
-							{
-								terrain.setTile(x, y, 3);
-							}
-						}
-						else
-						{
-							terrain.setTile(x, y, 2);
-						}
-					}
-					else 
-					{
-						terrain.setTile(x, y, 1);
-					}
-				}
-				else
-				{
-					terrain.setTile(x, y, 5);
-				}
-
+				setTile(x,y,terrain,value);
+				
 				output.setRGB(x, y, ColorUtils.shade(Color.white, value).getRGB());
 			}
 		}
@@ -108,7 +88,39 @@ public class WorldGenerator {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setTile(int x, int y, TileTerrainData terrain, float value)
+	{
+		if (value > 0.3f)
+		{
+			if (value > 0.525f){
+				if (value > 0.575f)
+				{
+					if (value > 0.85f)
+					{
+						terrain.setTile(x, y, 4);
+					} 
+					else 
+					{
+						terrain.setTile(x, y, 3);
+					}
+				}
+				else
+				{
+					terrain.setTile(x, y, 2);
+				}
+			}
+			else 
+			{
+				terrain.setTile(x, y, 1);
+			}
+		}
+		else
+		{
+			terrain.setTile(x, y, 5);
+		}
 
+	}
 	
 	public float[][] generateOctavedSimplexNoise(int width, int height, int octaves, float roughness, float scale)
 	{
@@ -127,7 +139,7 @@ public class WorldGenerator {
 			{
 				for (int y = 0; y < height; y++)
 				{
-					totalNoise[x][y] +=(float) SimplexNoise.noise(x * layerFrequency, y * layerFrequency) * layerWeight;
+					totalNoise[x][y] +=(float) SimplexNoise.noise(x * layerFrequency+xgenoff, y * layerFrequency+ygenoff) * layerWeight;
 				}
 			}
 

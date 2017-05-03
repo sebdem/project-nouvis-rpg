@@ -2,9 +2,13 @@ package sebdem.nouvis.states;
 
 import java.awt.Color;
 
+import javax.swing.JFrame;
+
 import sebdem.nouvis.app.NouvisApp;
 import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.entity.EntityPlayer;
+import sebdem.nouvis.entity.controller.EntityController;
+import sebdem.nouvis.entity.controller.PlayerInputController;
 import sebdem.nouvis.graphics.ISprite;
 import sebdem.nouvis.graphics.NouvGraphics;
 import sebdem.nouvis.world.Camera;
@@ -24,7 +28,7 @@ public class GameState implements IGState {
 	TileRegistry tiles;
 	EntityPlayer player;
 	
-	public GameState()
+	public GameState(JFrame container)
 	{ 
 		tiles = NouvisApp.tiles;
 		//camera = new Camera(new Vec2(5,5), new Vec2(48,27));
@@ -37,6 +41,8 @@ public class GameState implements IGState {
 
 		player = new EntityPlayer(world.randomPnt(), new Vec2(1,1));
 		player.world = world;
+		
+		container.addKeyListener(new PlayerInputController(player));
 	}
 
 	public int updateFrequency() {
@@ -46,6 +52,7 @@ public class GameState implements IGState {
 	
 	public void update(long elapsedTime)
     {
+		EntityController.getCurrent(player).update(elapsedTime);
 		player.update(elapsedTime);
 		//this.camera.position.addTo(((float)Math.random() - 0.5f), ((float)Math.random() - 0.5f));
 		//this.camera.position.addTo(0.125f,0);
