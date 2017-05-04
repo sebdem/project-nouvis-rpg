@@ -52,7 +52,7 @@ public class GameState implements IGState {
 		
 		world.addEntity(player = new EntityPlayer(world.randomPnt(), Vec2.one()));
 		
-		for(int i= 0; i < Math.random() * 300; i++){
+		for(int i= 0; i < 300; i++){
 			newBlob();
 		}
 		

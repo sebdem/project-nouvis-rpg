@@ -16,7 +16,7 @@ public abstract class EntityBase {
 	
 	public WorldSpace world;
 	
-	protected Vec2 renderCenter;
+	public Vec2 renderCenter;
 	
 	public EntityBase(){
 		this(Vec2.one(), Vec2.one());

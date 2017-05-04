@@ -4,12 +4,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import sebdem.nouvis.app.NouvisApp;
+import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.entity.EntityLiving;
 import sebdem.nouvis.world.Tile;
 
 public class PlayerInputController extends EntityController implements KeyListener{
 
 	public Tile selectedTile;
+
 	
 	public PlayerInputController(EntityLiving entity) {
 		super(entity);
@@ -18,7 +20,9 @@ public class PlayerInputController extends EntityController implements KeyListen
 
 	@Override
 	public void update(long elapsedTime) {
-		float speed = (this.movekey[4]) ? 0.125f : 0.085f;
+		float speed = this.entity.maxVelocity;
+		if (this.movekey[4]) 
+			speed *= 1.25f;
 		this.entity.movevec.x = this.movekey[2] ? speed : (this.movekey[3] ? -speed : 0);
 		this.entity.movevec.y = this.movekey[0] ? -speed : (this.movekey[1] ? speed : 0);
 	}

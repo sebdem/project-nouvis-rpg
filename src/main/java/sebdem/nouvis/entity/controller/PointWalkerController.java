@@ -27,7 +27,7 @@ public class PointWalkerController extends EntityController{
 			onDestinationReached();
 		}
 		else {
-			float speed = 0.0975f;
+			float speed = this.entity.maxVelocity;
 			float movex = destination.x - epos.x;
 			if (Math.abs(movex) > speed){
 				movex = (movex > 0) ? speed : (movex < 0) ? -speed : 0;

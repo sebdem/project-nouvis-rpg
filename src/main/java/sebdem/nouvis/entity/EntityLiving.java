@@ -1,7 +1,5 @@
 package sebdem.nouvis.entity;
 
-import java.awt.Color;
-
 import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.graphics.NouvGraphics;
 import sebdem.nouvis.world.Camera;
@@ -9,6 +7,8 @@ import sebdem.nouvis.world.Camera;
 public class EntityLiving extends EntityBase {
 
 	public Vec2 movevec;
+	
+	public float maxVelocity = 0.05f;
 	
 	public EntityLiving(Vec2 position, Vec2 size){
 		super(position, size);
@@ -41,7 +41,7 @@ public class EntityLiving extends EntityBase {
 	@Override
 	public void draw(NouvGraphics g)
 	{
-		g.draw(this.sprite, this.position);
+		g.draw(this.sprite, this.position.substractNew(this.renderCenter));
 	}
 
 	

@@ -16,6 +16,7 @@ public class EntityPlayer extends EntityLiving {
 	public EntityPlayer(Vec2 position, Vec2 size) {
 		super(position, size);
 		this.sprite = new Sprite(new SpriteResource("player", "debug.png"));
+		this.maxVelocity = 0.075f;
 	}
 	
 	
@@ -45,16 +46,16 @@ public class EntityPlayer extends EntityLiving {
 		lastDrawPos = this.position.substractNew(camera.position).multiplyNew(upscalse.x);
 		int sx = 0, sy = 0;
 
-			if(this.movevec.x >= 0.075f){
+			if(this.movevec.x >= 0.01f){
 				sy = 2;
 			}
-			else if(this.movevec.x <= -0.075f){
+			else if(this.movevec.x <= -0.01f){
 				sy = 1;
 			}
-			if(this.movevec.y >= 0.075f){
+			if(this.movevec.y >= 0.01f){
 				sx = 1;
 			}
-			else if(this.movevec.y <= -0.075f){
+			else if(this.movevec.y <= -0.01f){
 				sx = 2;
 			} 
 

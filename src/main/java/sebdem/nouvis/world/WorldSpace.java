@@ -23,16 +23,6 @@ public class WorldSpace {
 		
 	}
 
-	public Vec2 randomPnt(){
-		float f1, f2;
-		Vec2 point;
-		do {
-			f1 = ((float)Math.random() * terrain.width);
-			f2 = ((float)Math.random() * terrain.height);
-			point = new Vec2(f1,f2);
-		} while(isPosOccupied(point));
-		return point;
-	}
 	
 	public boolean isPosOccupied(Vec2 position){
 		int tileid = terrain.getTile(position);
@@ -64,6 +54,18 @@ public class WorldSpace {
 			}
 			e.update(elapsedTime);
 		}
+	}
+	
+
+	public Vec2 randomPnt(){
+		float f1, f2;
+		Vec2 point;
+		do {
+			f1 = ((float)Math.random() * terrain.width);
+			f2 = ((float)Math.random() * terrain.height);
+			point = new Vec2(f1,f2);
+		} while(isPosOccupied(point));
+		return point;
 	}
 	
 	public Vec2 randomPntInRange(Vec2 origin, int radius){
