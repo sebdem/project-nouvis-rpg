@@ -38,8 +38,11 @@ public class GameState implements IGState {
 //		int[][] map = {{1,2,2},{1,1,2},{3,1,1}};
 //		world.terrain = TileTerrainData.fromArray(map);
 		//camera = new Camera(new Vec2(3,3), new Vec2(48,27));
-		camera = new Camera(new Vec2(9,9), new Vec2(20, 15));
-
+		//camera = new Camera(new Vec2(9,9), new Vec2(20, 15));
+		camera = new Camera(new Vec2(9,9), new Vec2(
+						(container.getWidth() / tilescale.x), 
+						(container.getHeight() / tilescale.y))); //(float)Math.ceil ?
+		
 		player = new EntityPlayer(world.randomPnt(), new Vec2(1,1));
 		player.world = world;
 		controller = new PlayerInputController(player);
@@ -54,7 +57,7 @@ public class GameState implements IGState {
 	public void update(long elapsedTime)
     {
 		EntityController.getCurrent(player).update(elapsedTime);
-		player.update(elapsedTime);
+		this.player.update(elapsedTime);
 		//this.camera.position.addTo(((float)Math.random() - 0.5f), ((float)Math.random() - 0.5f));
 		//this.camera.position.addTo(0.125f,0);
 		this.camera.relateTo(player.position);
@@ -88,8 +91,8 @@ public class GameState implements IGState {
 		 
 		this.player.draw(g, camera, tilescale);
 
-		g.fill(Color.yellow, g.bottomLeft().substractFrom(0, tilescale.y + 8) ,tilescale.addNew(8, 8));
-		g.draw(this.controller.selectedTile.getBaseTexture(), g.bottomLeft().substractFrom(-6, tilescale.y+6) ,tilescale);
+		g.fill(Color.yellow, g.bottomLeft().substractFrom(0, tilescale.y + 7) ,tilescale.addNew(7, 7));
+		g.draw(this.controller.selectedTile.getBaseTexture(), g.bottomLeft().substractFrom(-5, tilescale.y+5) ,tilescale);
 		
 		//g.drawLine(new Vec2(0, player.lastDrawPos.y), new Vec2(g.bottomRight().x, player.lastDrawPos.y), Color.white);
 		//g.drawLine(new Vec2(player.lastDrawPos.x, 0), new Vec2(player.lastDrawPos.x, g.bottomRight().y), Color.white);

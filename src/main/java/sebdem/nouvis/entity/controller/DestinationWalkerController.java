@@ -32,6 +32,7 @@ public class DestinationWalkerController extends EntityController{
 			if (Math.abs(movey) > speed){
 				movey = (movey> 0) ? speed : (movey < 0) ? -speed : 0;
 			}
+			
 			this.entity.movevec.x = movex;
 			this.entity.movevec.y = movey;
 		}

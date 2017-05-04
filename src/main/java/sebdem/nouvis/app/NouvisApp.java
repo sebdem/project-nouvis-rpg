@@ -57,12 +57,13 @@ public class NouvisApp extends JFrame implements Runnable{
 	public NouvisApp(){
 		super();
 		initRes();
-		screenResolution = new Dimension(1280,960);
+		//screenResolution = new Dimension(1280,960);
+		screenResolution = new Dimension(600,800);
 		setResizable(false);
 		setTitle("Nouvis");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(Color.black);
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(null); 
 
 		// Fullscreen implementation ....
 		if(false){
