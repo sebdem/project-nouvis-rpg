@@ -59,7 +59,7 @@ public class EntityPlayer extends EntityLiving {
 			} 
 
 		Sprite s = new Sprite(new SpriteResource("player", "debug.png")).getSubSprite(sx, sy, 16, 16);
-		g.draw(s, lastDrawPos, upscalse);
+		g.draw(s,  lastDrawPos, upscalse);
 		
 	}
 	

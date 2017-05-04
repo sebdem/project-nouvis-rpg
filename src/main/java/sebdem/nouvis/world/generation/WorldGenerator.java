@@ -28,15 +28,15 @@ public class WorldGenerator {
 	public WorldGenerator(long seed) {
 //		width = 640;
 //		height = 480;
-		width = 640;
-		height = 480;
+		width = 1000;
+		height = 800;
 		this.seed = seed;
 		
 		landmasses = RandomUtils.randomIntAround(15, (int) (Math.random() * 6), (int) (Math.random() * 3));
 
 		Random r = new Random(this.seed);
-		xgenoff = r.nextInt(4960);
-		ygenoff = r.nextInt(4960);
+		xgenoff = r.nextInt(width*8);
+		ygenoff = r.nextInt(height*8);
 	}
 
 	public WorldSpace generate()
@@ -59,7 +59,7 @@ public class WorldGenerator {
 		
 		//float[][] values = generateOctavedSimplexNoise(width, height, r.nextInt(8) + 3, 0.25f, 0.00928125f); 
 		//float[][] values = generateOctavedSimplexNoise(width, height, r.nextInt(8) + 3, 0.55f, 0.003140625f); 
-		float[][] values = generateOctavedSimplexNoise(width, height, 5, 0.425f, 0.005f); //r.nextInt(8) + 1
+		float[][] values = generateOctavedSimplexNoise(width, height, 20, 0.425f, 0.005f); //r.nextInt(8) + 1
 		
 		
 		BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

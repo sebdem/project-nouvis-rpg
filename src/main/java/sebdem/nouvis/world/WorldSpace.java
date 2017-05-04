@@ -1,16 +1,22 @@
 package sebdem.nouvis.world;
 
+import java.util.ArrayList;
+
 import sebdem.nouvis.app.NouvisApp;
 import sebdem.nouvis.datastructs.Vec2;
+import sebdem.nouvis.entity.EntityBase;
+import sebdem.nouvis.entity.EntityLiving;
+import sebdem.nouvis.entity.controller.EntityController;
 import sebdem.nouvis.graphics.NouvGraphics;
 
 public class WorldSpace {
 
 	public TileTerrainData terrain;
 	
+	public ArrayList<EntityBase> entities;
 	
 	public WorldSpace(){
-		
+		entities = new ArrayList<EntityBase>();
 	}
 	
 	public void draw(NouvGraphics graph, Camera camera){
@@ -42,6 +48,22 @@ public class WorldSpace {
 	
 	public boolean place(int tileid, Vec2 pos){
 		return this.terrain.setTile((int)pos.x, (int)pos.y, tileid);
+	}
+	
+	public void addEntity(EntityBase e){
+		this.entities.add(e);
+		e.world = this;
+	}
+	public void updateEntities(long elapsedTime){
+		for(int i = 0; i < entities.size(); i++){
+			EntityBase e = entities.get(i);
+			if (e instanceof EntityLiving){
+				EntityController c = EntityController.getCurrent((EntityLiving) e);
+				if (c != null)
+					c.update(elapsedTime);
+			}
+			e.update(elapsedTime);
+		}
 	}
 	
 	public Vec2 randomPntInRange(Vec2 origin, int radius){

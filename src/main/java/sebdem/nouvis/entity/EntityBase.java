@@ -16,12 +16,15 @@ public abstract class EntityBase {
 	
 	public WorldSpace world;
 	
+	protected Vec2 renderCenter;
+	
 	public EntityBase(){
-		this(new Vec2(1,1), new Vec2(1,1));
+		this(Vec2.one(), Vec2.one());
 	}
 	public EntityBase(Vec2 position, Vec2 size){
 		this.position = position;
 		this.size = size;
+		this.renderCenter =Vec2.zero();
 	}
 	
 	public abstract void update(long elapsedTime);

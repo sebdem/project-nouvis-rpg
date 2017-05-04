@@ -3,27 +3,31 @@ package sebdem.nouvis.entity.controller;
 import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.entity.EntityLiving;
 
-public class DestinationWalkerController extends EntityController{
+public class PointWalkerController extends EntityController{
 
 	public Vec2 destination;
 	
 	
-	public DestinationWalkerController(EntityLiving entity) {
+	public PointWalkerController(EntityLiving entity) {
 		super(entity);
 		 
 		// TODO Auto-generated constructor stub
 	}
 	
+	protected void onDestinationReached(){
+		this.unregister();
+	}
+	
 	public void update(long elapsedTime){
 		Vec2 epos = this.entity.position;
 		if (destination == null){
-			destination = this.entity.world.randomPntInRange(epos, 40);
+			destination = getNewTarget(24);
 		}
 		else if ( destination.equals(epos)){
-			this.unregister();
+			onDestinationReached();
 		}
 		else {
-			float speed = 0.125f;
+			float speed = 0.0975f;
 			float movex = destination.x - epos.x;
 			if (Math.abs(movex) > speed){
 				movex = (movex > 0) ? speed : (movex < 0) ? -speed : 0;
@@ -33,9 +37,19 @@ public class DestinationWalkerController extends EntityController{
 				movey = (movey> 0) ? speed : (movey < 0) ? -speed : 0;
 			}
 			
-			this.entity.movevec.x = movex;
-			this.entity.movevec.y = movey;
+			if(this.entity.canMoveTo(epos.addNew(movex, movey))){
+				this.entity.movevec.x = movex;
+				this.entity.movevec.y = movey;
+			} else {
+				destination = getNewTarget(24);
+				//this.unregister();
+			}
+			
 		}
+	}
+	
+	protected Vec2 getNewTarget(int range){
+		return this.entity.world.randomPntInRange(this.entity.position, range);
 	}
 	
 }

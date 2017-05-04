@@ -28,6 +28,14 @@ public class Vec2 {
 		return new Vec2(base.x - sub.x, base.y - sub.y);
 	}
 	
+	
+	public static Vec2 one(){
+		return new Vec2(1,1);
+	}
+	public static Vec2 zero(){
+		return new Vec2(0,0);
+	}
+	
 
 	// ===========================================
 	// ==||== BASIC METHODS ==||==

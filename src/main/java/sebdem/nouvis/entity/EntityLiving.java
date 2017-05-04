@@ -1,10 +1,10 @@
 package sebdem.nouvis.entity;
 
-import sebdem.nouvis.app.NouvisApp;
+import java.awt.Color;
+
 import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.graphics.NouvGraphics;
 import sebdem.nouvis.world.Camera;
-import sebdem.nouvis.world.Tile;
 
 public class EntityLiving extends EntityBase {
 
@@ -13,6 +13,7 @@ public class EntityLiving extends EntityBase {
 	public EntityLiving(Vec2 position, Vec2 size){
 		super(position, size);
 		this.movevec = new Vec2(0,0);
+		this.renderCenter = size.multiplyNew(0.5f);
 	}
 	
 	@Override
@@ -48,11 +49,11 @@ public class EntityLiving extends EntityBase {
 	public Vec2 lastDrawPos;
 	
 	@Override
-	public void draw(NouvGraphics g, Camera camera, Vec2 upscalse)
+	public void draw(NouvGraphics g, Camera camera, Vec2 upscale)
 	{
-		lastDrawPos = this.position.substractNew(camera.position).multiplyNew(upscalse.x);
-		g.draw(this.sprite, lastDrawPos, upscalse);
-		
+		lastDrawPos = this.position.substractNew(camera.position).multiplyNew(upscale.x);
+		g.draw(this.sprite, lastDrawPos.substractNew(this.renderCenter), upscale);
+		//g.fill(Color.yellow, lastDrawPos.substractNew(this.renderCenter), upscale);
 	}
 
 }

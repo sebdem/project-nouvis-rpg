@@ -6,11 +6,15 @@ import javax.swing.JFrame;
 
 import sebdem.nouvis.app.NouvisApp;
 import sebdem.nouvis.datastructs.Vec2;
+import sebdem.nouvis.entity.EntityLiving;
 import sebdem.nouvis.entity.EntityPlayer;
+import sebdem.nouvis.entity.controller.AmbientWalkerController;
 import sebdem.nouvis.entity.controller.EntityController;
 import sebdem.nouvis.entity.controller.PlayerInputController;
 import sebdem.nouvis.graphics.ISprite;
 import sebdem.nouvis.graphics.NouvGraphics;
+import sebdem.nouvis.graphics.Sprite;
+import sebdem.nouvis.resource.SpriteResource;
 import sebdem.nouvis.world.Camera;
 import sebdem.nouvis.world.Tile;
 import sebdem.nouvis.world.TileRegistry;
@@ -28,6 +32,7 @@ public class GameState implements IGState {
 	TileRegistry tiles;
 	EntityPlayer player;
 	PlayerInputController controller;
+
 	
 	public GameState(JFrame container)
 	{ 
@@ -43,12 +48,28 @@ public class GameState implements IGState {
 						(container.getWidth() / tilescale.x), 
 						(container.getHeight() / tilescale.y))); //(float)Math.ceil ?
 		
-		player = new EntityPlayer(world.randomPnt(), new Vec2(1,1));
-		player.world = world;
+		
+		
+		world.addEntity(player = new EntityPlayer(world.randomPnt(), Vec2.one()));
+		
+		for(int i= 0; i < Math.random() * 300; i++){
+			newBlob();
+		}
+		
+		
 		controller = new PlayerInputController(player);
+		//new AmbientWalkerController(test);
 		container.addKeyListener(controller);
 	}
 
+	private EntityLiving newBlob(){
+		EntityLiving blob = new EntityLiving(world.randomPntInRange(player.position, 9), Vec2.one());
+		this.world.addEntity(blob);
+		blob.sprite = new Sprite(new SpriteResource("enemies", "blob.png"));
+		new AmbientWalkerController(blob);
+		return blob;
+	}
+	
 	public int updateFrequency() {
 		return IGState.MODERATE_UPDATE_FREQUENCY;
 	}
@@ -56,10 +77,10 @@ public class GameState implements IGState {
 	
 	public void update(long elapsedTime)
     {
-		EntityController.getCurrent(player).update(elapsedTime);
-		this.player.update(elapsedTime);
+		world.updateEntities(elapsedTime);
 		//this.camera.position.addTo(((float)Math.random() - 0.5f), ((float)Math.random() - 0.5f));
 		//this.camera.position.addTo(0.125f,0);
+		//this.camera.relateTo(player.position);
 		this.camera.relateTo(player.position);
     }
 
@@ -88,12 +109,17 @@ public class GameState implements IGState {
 				}
 			}	
 		}
-		 
+
+		for(int i = 0; i < world.entities.size(); i++){
+
+			this.world.entities.get(i).draw(g, camera, tilescale);
+		}
+		
 		this.player.draw(g, camera, tilescale);
 
 		g.fill(Color.yellow, g.bottomLeft().substractFrom(0, tilescale.y + 7) ,tilescale.addNew(7, 7));
 		g.draw(this.controller.selectedTile.getBaseTexture(), g.bottomLeft().substractFrom(-5, tilescale.y+5) ,tilescale);
-		
+		g.drawString(NouvisApp.crafted, "X: " + this.player.position.x + ", Y: " + this.player.position.y, g.topLeft().addTo(4, 4), Color.white, Color.darkGray);
 		//g.drawLine(new Vec2(0, player.lastDrawPos.y), new Vec2(g.bottomRight().x, player.lastDrawPos.y), Color.white);
 		//g.drawLine(new Vec2(player.lastDrawPos.x, 0), new Vec2(player.lastDrawPos.x, g.bottomRight().y), Color.white);
 		tile = null;
