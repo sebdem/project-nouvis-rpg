@@ -162,6 +162,21 @@ public class NouvGraphics {
 			position.addTo(sdim.x, 0);
 		}
 	}
+	public void drawString(NouvFont font, String text, Vec2 position, Color tint, Color shadow, float scale){
+		// TODO : Draw String fitting to clip bounds?
+		char[] chars = text.toCharArray();
+		ISprite s = null;
+		Vec2 sdim;
+		for(char c : chars){
+			s = font.getFor(c);
+			sdim = s.getDim().multiplyNew(scale); 
+			
+			draw(s, position.addNew(1, 1).createRectSize(sdim).getBounds(), shadow);
+			draw(s, position.createRectSize(sdim).getBounds(), tint);
+
+			position.addTo(sdim.x, 0);
+		}
+	}
 	
 	
 }

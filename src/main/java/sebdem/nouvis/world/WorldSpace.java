@@ -1,6 +1,8 @@
 package sebdem.nouvis.world;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import sebdem.nouvis.app.NouvisApp;
 import sebdem.nouvis.datastructs.Vec2;
@@ -44,6 +46,19 @@ public class WorldSpace {
 		this.entities.add(e);
 		e.world = this;
 	}
+	
+	public EntityBase[] getInView(Camera c){
+		ArrayList<EntityBase> selection = new ArrayList<EntityBase>();
+		Rectangle2D.Float viewarea = c.viewArea();
+		for(EntityBase e : this.entities){
+			if (viewarea.intersects(e.getBounds()));
+				selection.add(e);
+		}
+		selection.sort((par1, par2)->{return (par1.position.y > par2.position.y) ? 1 : (par1.position.y < par2.position.y) ? -1 : 0;  });
+		
+		return selection.toArray(new EntityBase[selection.size()]);
+	}
+	
 	public void updateEntities(long elapsedTime){
 		for(int i = 0; i < entities.size(); i++){
 			EntityBase e = entities.get(i);

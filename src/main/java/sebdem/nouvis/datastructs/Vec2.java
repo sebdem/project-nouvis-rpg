@@ -47,6 +47,33 @@ public class Vec2 {
 	public float value() {
 		return (float) x * y;
 	}
+	
+	public Vec2 floor(){
+		this.x = (float) Math.floor(x);
+		this.y = (float) Math.floor(y);
+		return this;
+	}
+	public Vec2 floorNew(){
+		return new Vec2((float) Math.floor(x), (float) Math.floor(y));
+	}
+	public Vec2 ceil(){
+		this.x = (float) Math.ceil(x);
+		this.y = (float) Math.ceil(y);
+		return this;
+	}
+	public Vec2 ceilNew(){
+		return new Vec2((float) Math.ceil(x), (float) Math.ceil(y));
+	}
+	
+	public Vec2 round(){
+		this.x = (float) Math.round(x);
+		this.y = (float) Math.round(y);
+		return this;
+	}
+	public Vec2 roundNew(){
+		return new Vec2((float) Math.round(x), (float) Math.round(y));
+	}
+	
 
 	public Vec2 unit() {
 		float leng = this.length();

@@ -44,7 +44,7 @@ public class PlayerInputController extends EntityController implements KeyListen
 			case KeyEvent.VK_SHIFT: movekey[4] = true; break;
 			case KeyEvent.VK_F1: new PointWalkerController(this.entity); break;
 			case KeyEvent.VK_SPACE : 
-				this.entity.world.place(selectedTile.getId(), this.entity.position.addNew(0, -1));
+				this.entity.world.place(selectedTile.getId(), this.entity.position.addNew(-1, -1).round());
 				
 		}
 	}

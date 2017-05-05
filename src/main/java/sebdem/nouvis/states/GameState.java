@@ -6,10 +6,10 @@ import javax.swing.JFrame;
 
 import sebdem.nouvis.app.NouvisApp;
 import sebdem.nouvis.datastructs.Vec2;
+import sebdem.nouvis.entity.EntityBase;
 import sebdem.nouvis.entity.EntityLiving;
 import sebdem.nouvis.entity.EntityPlayer;
 import sebdem.nouvis.entity.controller.AmbientWalkerController;
-import sebdem.nouvis.entity.controller.EntityController;
 import sebdem.nouvis.entity.controller.PlayerInputController;
 import sebdem.nouvis.graphics.ISprite;
 import sebdem.nouvis.graphics.NouvGraphics;
@@ -18,7 +18,6 @@ import sebdem.nouvis.resource.SpriteResource;
 import sebdem.nouvis.world.Camera;
 import sebdem.nouvis.world.Tile;
 import sebdem.nouvis.world.TileRegistry;
-import sebdem.nouvis.world.TileTerrainData;
 import sebdem.nouvis.world.WorldSpace;
 import sebdem.nouvis.world.generation.WorldGenerator;
 
@@ -32,7 +31,7 @@ public class GameState implements IGState {
 	TileRegistry tiles;
 	EntityPlayer player;
 	PlayerInputController controller;
-
+	EntityBase[] onscreenentities;
 	
 	public GameState(JFrame container)
 	{ 
@@ -52,7 +51,7 @@ public class GameState implements IGState {
 		
 		world.addEntity(player = new EntityPlayer(world.randomPnt(), Vec2.one()));
 		
-		for(int i= 0; i < 300; i++){
+		for(int i= 0; i < 64; i++){
 			newBlob();
 		}
 		
@@ -65,7 +64,7 @@ public class GameState implements IGState {
 	private EntityLiving newBlob(){
 		EntityLiving blob = new EntityLiving(world.randomPntInRange(player.position, 9), Vec2.one());
 		this.world.addEntity(blob);
-		blob.sprite = new Sprite(new SpriteResource("enemies", "blob.png"));
+		blob.sprite = new Sprite(new SpriteResource("enemies", "blob_"+(int)(Math.random() * 3)+".png"));
 		new AmbientWalkerController(blob);
 		return blob;
 	}
@@ -110,25 +109,25 @@ public class GameState implements IGState {
 			}	
 		}
 
-		for(int i = 0; i < world.entities.size(); i++){
-
-			this.world.entities.get(i).draw(g, camera, tilescale);
+		onscreenentities = world.getInView(camera);
+		for(int i = 0; i < onscreenentities.length; i++){
+			onscreenentities[i].draw(g, camera, tilescale);
 		}
 		
 		this.player.draw(g, camera, tilescale);
 
 		g.fill(Color.yellow, g.bottomLeft().substractFrom(0, tilescale.y + 7) ,tilescale.addNew(7, 7));
 		g.draw(this.controller.selectedTile.getBaseTexture(), g.bottomLeft().substractFrom(-5, tilescale.y+5) ,tilescale);
-		g.drawString(NouvisApp.crafted, "X: " + this.player.position.x + ", Y: " + this.player.position.y, g.topLeft().addTo(4, 4), Color.white, Color.darkGray);
+		g.drawString(NouvisApp.crafted, "X: " + this.player.position.x + ", Y: " + this.player.position.y, g.topLeft().addTo(4, 4), Color.white, Color.darkGray, 2f);
 		//g.drawLine(new Vec2(0, player.lastDrawPos.y), new Vec2(g.bottomRight().x, player.lastDrawPos.y), Color.white);
 		//g.drawLine(new Vec2(player.lastDrawPos.x, 0), new Vec2(player.lastDrawPos.x, g.bottomRight().y), Color.white);
+		
+		
 		tile = null;
 		s = null;
 		drawPos = null;
 		offset = null;
-		tileids = null;
-//		g.drawString("EmptyState " + etime, 20 + positionx, g.getFont().getSize() / 2 + screen.renderedImage.getHeight() / 2 );
-//		g.drawString("If you see this, an Error may have occurred", 20 + positionx, g.getFont().getSize() * 2 + screen.renderedImage.getHeight() / 2 );
+		tileids = null; 
 		g.dispose();
 	}
  

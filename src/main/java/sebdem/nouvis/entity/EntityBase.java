@@ -1,5 +1,7 @@
 package sebdem.nouvis.entity;
 
+import java.awt.geom.Rectangle2D;
+
 import sebdem.nouvis.datastructs.Vec2;
 import sebdem.nouvis.graphics.ISprite;
 import sebdem.nouvis.graphics.NouvGraphics;
@@ -37,6 +39,9 @@ public abstract class EntityBase {
 	
 	public ISprite getSprite(){
 		return this.sprite;
+	}
+	public Rectangle2D.Float getBounds() {
+		return this.position.createRectSize(this.size);
 	}
 
 }

@@ -1,5 +1,7 @@
 package sebdem.nouvis.world;
 
+import java.awt.geom.Rectangle2D;
+
 import sebdem.nouvis.datastructs.Vec2;
 
 public class Camera {
@@ -30,6 +32,10 @@ public class Camera {
 	}
 	public Vec2 bottomRight(){
 		return position.addNew(size);
+	}
+	
+	public Rectangle2D.Float viewArea(){
+		return this.position.createRectSize(this.size);
 	}
 	
 	public Vec2 getFocusPoint(){
