@@ -17,8 +17,16 @@ public class Camera {
 	
 	
 	public void relateTo(Vec2 target){
-		this.position.x = target.x - (size.x / 2);
-		this.position.y = target.y - (size.y / 2);
+		
+		
+		float tx = target.x - (size.x / 2);
+		float ty = target.y - (size.y / 2);
+		if (tx < 0)
+			tx = 0;
+		this.position.x = tx;
+		if (ty < 0)
+			ty = 0;
+		this.position.y = ty;
 	}
 
 	public Vec2 topLeft(){

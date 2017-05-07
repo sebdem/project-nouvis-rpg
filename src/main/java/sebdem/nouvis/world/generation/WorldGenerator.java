@@ -28,8 +28,8 @@ public class WorldGenerator {
 	public WorldGenerator(long seed) {
 //		width = 640;
 //		height = 480;
-		width = 1000;
-		height = 800;
+		width = 2000;
+		height = 1000;
 		this.seed = seed;
 		
 		landmasses = RandomUtils.randomIntAround(15, (int) (Math.random() * 6), (int) (Math.random() * 3));
@@ -60,6 +60,7 @@ public class WorldGenerator {
 		//float[][] values = generateOctavedSimplexNoise(width, height, r.nextInt(8) + 3, 0.25f, 0.00928125f); 
 		//float[][] values = generateOctavedSimplexNoise(width, height, r.nextInt(8) + 3, 0.55f, 0.003140625f); 
 		float[][] values = generateOctavedSimplexNoise(width, height, 20, 0.425f, 0.005f); //r.nextInt(8) + 1
+		//float[][] values = generateOctavedSimplexNoise(width, height, 20, 0.02f, 0.005f); //r.nextInt(8) + 1
 		
 		
 		BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -112,7 +113,7 @@ public class WorldGenerator {
 			}
 			else 
 			{
-				terrain.setTile(x, y, 1);
+				terrain.setTile(x, y, 1); 
 			}
 		}
 		else

@@ -37,7 +37,7 @@ public class GameState implements IGState {
 	{ 
 		tiles = NouvisApp.tiles;
 		//camera = new Camera(new Vec2(5,5), new Vec2(48,27));
-		world = new WorldGenerator(123).generate();
+		world = new WorldGenerator(5345).generate();
 //		world = new WorldSpace();
 //		int[][] map = {{1,2,2},{1,1,2},{3,1,1}};
 //		world.terrain = TileTerrainData.fromArray(map);

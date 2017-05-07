@@ -155,7 +155,7 @@ public class Vec2 {
 	
 	
 	public Vec2 intOffset(){
-		return new Vec2(this.x % 1, this.y % 1);
+		return new Vec2(x % 1, y% 1);
 	}
 	
 	public Rectangle2D.Float createRectTo(Vec2 to) {
