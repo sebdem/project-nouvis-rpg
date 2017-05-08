@@ -28,8 +28,8 @@ public class WorldGenerator {
 	public WorldGenerator(long seed) {
 //		width = 640;
 //		height = 480;
-		width = 2000;
-		height = 1000;
+		width = 64;
+		height = 64;
 		this.seed = seed;
 		
 		landmasses = RandomUtils.randomIntAround(15, (int) (Math.random() * 6), (int) (Math.random() * 3));

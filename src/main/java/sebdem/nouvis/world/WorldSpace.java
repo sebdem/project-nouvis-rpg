@@ -102,4 +102,8 @@ public class WorldSpace {
 		return point;
 	}
 
+	public Vec2 getDimension() {
+		return new Vec2( terrain.width, terrain.height);
+	}
+
 }

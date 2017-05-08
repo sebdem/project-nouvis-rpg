@@ -80,7 +80,7 @@ public class GameState implements IGState {
 		//this.camera.position.addTo(((float)Math.random() - 0.5f), ((float)Math.random() - 0.5f));
 		//this.camera.position.addTo(0.125f,0);
 		//this.camera.relateTo(player.position);
-		this.camera.relateTo(player.position);
+		this.camera.relateTo(player.position, world.getDimension());
     }
 
 	

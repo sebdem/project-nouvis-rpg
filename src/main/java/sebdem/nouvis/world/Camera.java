@@ -16,16 +16,22 @@ public class Camera {
 	}
 	
 	
-	public void relateTo(Vec2 target){
+	public void relateTo(Vec2 target, Vec2 bounds){
 		
 		
 		float tx = target.x - (size.x / 2);
 		float ty = target.y - (size.y / 2);
 		if (tx < 0)
 			tx = 0;
+		if(tx + size.x >= bounds.x){
+			tx = bounds.x - size.x;
+		}
 		this.position.x = tx;
 		if (ty < 0)
 			ty = 0;
+		if(ty + size.y >= bounds.y){
+			ty = bounds.y - size.y;
+		}
 		this.position.y = ty;
 	}
 
